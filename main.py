@@ -54,3 +54,37 @@ def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0) :
    be = blueEnd + be
    re = redEnd + re
    field.updateRealtimeScore(ba, ra, bt, rt, be, re)
+
+def scoreNote(alliance, location) :
+    if matchState == 3 or matchState == 4:
+        if alliance == 'red' :
+            if location == 'speaker' :
+               addScore(ra=5)
+               return 5
+            if location == 'amp' :
+               addScore(ra=2)
+               return 2
+        if alliance == 'blue' :
+            if location == 'speaker' :
+                addScore(ba=5)
+                return 5
+            if location == 'amp' :
+                addScore(ba=2)
+                return 2
+    if matchState == 5 :
+        if alliance == 'red' :
+          if location == 'speaker' :
+             addScore(rt=2)
+             return 2
+          if location == 'amp' :
+             addScore(rt=1)
+             return 2
+        if alliance == 'blue' :
+           if location =='speaker' :
+              addScore(bt=2)
+              return 2
+           if location == 'amp' :
+              addScore(bt=1)
+              return 1
+    return 0
+    
