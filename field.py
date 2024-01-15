@@ -62,3 +62,11 @@ def scoreHandler() :
     if msg['type'] != 'realtimeScore' :
         return 0
     return msg
+
+def timeHandler() :
+    rawmsg = wsScore.recv()
+    msg = json.loads(rawmsg)
+
+    if msg['type'] != 'matchTime' :
+        return 0
+    return msg
