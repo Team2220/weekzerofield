@@ -15,13 +15,13 @@ def wsSend(packet) :
     ws.send(packet)
 
 def subTeam(tnum, pos) :
-    wsSend('{"type":"substituteTeam","data":{"team":' + tnum + ',"position":"' + pos + '"}}')
+    wsSend('{"type":"substituteTeam","data":{"team":' + str(tnum) + ',"position":"' + pos + '"}}')
 
 def bypTeam(pos) :
     wsSend('{"type":"toggleBypass","data":"' + pos + '"}')
 
 def startMatch(mute='false') :
-    wsSend('{"type":"startMatch","data":{"muteMatchSounds":' + mute + '}}')
+    wsSend('{"type":"startMatch","data":{"muteMatchSounds":' + str(mute) + '}}')
     
 def abortMatch() :
     wsSend('{"type":"abortMatch"}')
@@ -45,13 +45,23 @@ def setAllianceStationDisplay(display) :
     wsSend('{"type":"setAllianceStationDisplay","data":"' + display + '"}')
 
 def startTimeout(time=480) :
-    wsSend('{"type":"startTimeout","data":' + time + '}')
+    wsSend('{"type":"startTimeout","data":' + str(time) + '}')
 
 def setTestMatchName(name) :
     wsSend('{"type":"setTestMatchName","data":"' + name + '"}')
     
 def updateRealtimeScore(ba, ra, bt, rt, be, re) :
-    wsSend('{"type":"updateRealtimeScore","data":{"blueAuto":1' + ba + '"redAuto":' + ra + ',"blueTeleop":' + bt + ',"redTeleop":' + rt + ',"blueEndgame":' + be + ',"redEndgame":' + re + '}}')
+    scoreFormat = {"type":"updateRealtimeScore","data":{"blueAuto":0,"redAuto":0,"blueTeleop":0,"redTeleop":0,"blueEndgame":0,"redEndgame":0}}
+
+    scoreFormat['data']['blueAuto'] = ba
+    scoreFormat['data']['redAuto'] = ra
+    scoreFormat['data']['blueTeleop'] = bt
+    scoreFormat['data']['redTeleop'] = rt
+    scoreFormat['data']['blueEndgame'] = be
+    scoreFormat['data']['redEndgame'] = re
+
+    toSend = json.dumps(scoreFormat)
+    wsSend(toSend)
 
 def scoreHandler() : 
     #receive and parse
