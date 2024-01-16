@@ -1,5 +1,15 @@
 import field
 import threading
+from gpiozero import Button
+from time import sleep
+
+m_alliance = 'blue'
+
+coopButton = Button(4)
+ampButton = Button(17)
+
+speakerTrigger = Button(18)
+ampTrigger = Button(27)
 
 field.initConnections()
 
@@ -11,6 +21,11 @@ blueEnd = 0
 redEnd = 0
 
 matchState = 0
+
+ampNotes = 0
+coop = False
+amplifyNotesRem = 0
+amplifySecRem = 0
 
 def scoring_thread() :
     while True :
@@ -62,6 +77,7 @@ def scoreNote(alliance, location) :
                addScore(ra=5)
                return 5
             if location == 'amp' :
+               ampNotes += 1
                addScore(ra=2)
                return 2
         if alliance == 'blue' :
@@ -69,6 +85,7 @@ def scoreNote(alliance, location) :
                 addScore(ba=5)
                 return 5
             if location == 'amp' :
+                ampNotes += 1
                 addScore(ba=2)
                 return 2
     if matchState == 5 :
@@ -77,6 +94,7 @@ def scoreNote(alliance, location) :
              addScore(rt=2)
              return 2
           if location == 'amp' :
+             ampNotes += 1
              addScore(rt=1)
              return 2
         if alliance == 'blue' :
@@ -84,7 +102,37 @@ def scoreNote(alliance, location) :
               addScore(bt=2)
               return 2
            if location == 'amp' :
+              ampNotes += 1
               addScore(bt=1)
               return 1
     return 0
-    
+
+def coopHandler() :
+   if coopButton.is_pressed() and coop == False and ampNotes >= 1:
+      coop = True
+      ampNotes -= 1
+
+coop_updater = threading.Thread(target=coopHandler)
+coop_updater.start()
+
+def ampHandler() :
+   while True :
+      if ampButton.is_pressed() and amplifySecRem == 0 and amplifyNotesRem <= 0 and ampNotes >= 2:
+         ampNotes -= 2
+         amplifySecRem = 10
+         amplifyNotesRem = 4 
+      if amplifySecRem <= 0 or amplifyNotesRem <=  0 :
+         amplifySecRem = 0
+         amplifyNotesRem = 0
+
+amp_updater = threading.Thread(target=ampHandler)
+amp_updater.start()
+
+def ampTimer() :
+   while True :
+      while amplifySecRem > 0 :
+         sleep(1)
+         amplifySecRem -= 1
+
+time_updater = threading.Thread(target=ampTimer)
+time_updater.start()
