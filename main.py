@@ -87,6 +87,9 @@ def scoreNote(alliance, location) :
     if matchState == 5 : # in teleop
         if alliance == 'red' :
           if location == 'speaker' :
+             if amplifySecRem > 0 or amplifyNotesRem > 0 :
+                addScore(rt=5)
+                return 5
              addScore(rt=2)
              return 2
           if location == 'amp' :
@@ -95,8 +98,11 @@ def scoreNote(alliance, location) :
              return 2
         if alliance == 'blue' :
            if location =='speaker' :
-              addScore(bt=2)
-              return 2
+               if amplifySecRem > 0 or amplifyNotesRem > 0 :
+                   addScore(bt=5)
+                   return 5
+               addScore(bt=2)
+               return 2
            if location == 'amp' :
               ampNotes += 1
               addScore(bt=1)
