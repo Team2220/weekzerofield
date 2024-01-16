@@ -11,8 +11,6 @@ ampButton = Button(17)
 speakerTrigger = Button(18)
 ampTrigger = Button(27)
 
-field.initConnections()
-
 blueAuto = 0
 redAuto = 0
 blueTele = 0
@@ -40,7 +38,6 @@ def scoring_thread() :
         redEnd = scores['data']['Red']['Score']['EndgamePoints']
 
 scoreUpdater = threading.Thread(target=scoring_thread)
-scoreUpdater.start()
 
 def state_thread() :
    while True :
@@ -50,7 +47,6 @@ def state_thread() :
       matchState = curr_state['data']['MatchState']
 
 stateUpdater = threading.Thread(target=state_thread)
-stateUpdater.start()
 
 # Match States
 # 0=Not Started
@@ -113,7 +109,6 @@ def coopHandler() :
       ampNotes -= 1
 
 coop_updater = threading.Thread(target=coopHandler)
-coop_updater.start()
 
 def ampHandler() :
    while True :
@@ -126,7 +121,6 @@ def ampHandler() :
          amplifyNotesRem = 0
 
 amp_updater = threading.Thread(target=ampHandler)
-amp_updater.start()
 
 def ampTimer() :
    while True :
@@ -135,4 +129,43 @@ def ampTimer() :
          amplifySecRem -= 1
 
 time_updater = threading.Thread(target=ampTimer)
-time_updater.start()
+
+def speakerTriggerHandler() :
+   while True :
+      if speakerTrigger.is_pressed() :
+         scoreNote(m_alliance, 'speaker')
+
+speakerScoreUpdater = threading.Thread(target=speakerTriggerHandler)
+speakerScoreUpdater.start()
+
+def ampTriggerHandler() :
+   while True :
+      if ampTrigger.is_pressed() :
+         scoreNote(m_alliance, 'amp')
+
+ampScoreUpdater = threading.Thread(target=ampTriggerHandler)
+
+def resetHandler() :
+   while True :
+      if matchState == 6 :
+         blueAuto = 0
+         redAuto = 0
+         blueTele = 0
+         redTele = 0
+         blueEnd = 0
+         redEnd = 0
+         ampNotes = 0
+         coop = False
+         amplifyNotesRem = 0
+         amplifySecRem = 0
+
+def main() :
+   field.initConnections()
+
+   scoreUpdater.start()
+   stateUpdater.start()
+   amp_updater.start()
+   coop_updater.start()
+   time_updater.start()
+   speakerScoreUpdater.start()
+   ampScoreUpdater.start()
