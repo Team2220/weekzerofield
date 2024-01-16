@@ -67,7 +67,7 @@ def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0) :
    field.updateRealtimeScore(ba, ra, bt, rt, be, re)
 
 def scoreNote(alliance, location) :
-    if matchState == 3 or matchState == 4:
+    if matchState == 3 or matchState == 4: # in auto/grace period
         if alliance == 'red' :
             if location == 'speaker' :
                addScore(ra=5)
@@ -84,7 +84,7 @@ def scoreNote(alliance, location) :
                 ampNotes += 1
                 addScore(ba=2)
                 return 2
-    if matchState == 5 :
+    if matchState == 5 : # in teleop
         if alliance == 'red' :
           if location == 'speaker' :
              addScore(rt=2)
@@ -112,7 +112,7 @@ coop_updater = threading.Thread(target=coopHandler)
 
 def ampHandler() :
    while True :
-      if ampButton.is_pressed() and amplifySecRem == 0 and amplifyNotesRem <= 0 and ampNotes >= 2:
+      if ampButton.is_pressed() and amplifySecRem <= 0 and amplifyNotesRem <= 0 and ampNotes >= 2:
          ampNotes -= 2
          amplifySecRem = 10
          amplifyNotesRem = 4 
@@ -159,6 +159,8 @@ def resetHandler() :
          amplifyNotesRem = 0
          amplifySecRem = 0
 
+resetUpdater = threading.Thread(target=resetHandler)
+
 def main() :
    field.initConnections()
 
@@ -169,3 +171,4 @@ def main() :
    time_updater.start()
    speakerScoreUpdater.start()
    ampScoreUpdater.start()
+   resetUpdater.start()
