@@ -14,8 +14,8 @@ configuration = {
     "buttons": [
         {"x": 50, "y": 130, "name": "coop", "pin": 4},
         {"x": 250, "y": 130, "name": "amp", "pin": 17},
-        {"x": 150, "y": 130, "name": "speaker", "pin": 18},
-        {"x": 150, "y": 30, "name": "amp", "pin": 27}
+        {"x": 150, "y": 130, "name": "speakerscore", "pin": 18},
+        {"x": 150, "y": 30, "name": "ampscore", "pin": 27}
     ]
 }
 
@@ -141,7 +141,7 @@ def scoreNote(location):
                 print('scored')
                 return 2
             if location == 'amp':
-                ampNotes += 1
+                m_amp.notes += 1
                 addScore(bt=1)
                 return 1
    print('no score' + str(m_match.matchState))
@@ -160,10 +160,7 @@ coop_updater = threading.Thread(target=coopHandler)
 
 def ampHandler():
     while True:
-        if ampButton.is_pressed and m_amp.secondsRem <= 0 and m_amp.notesRem <= 0 and m_amp.notes >= 2:
-            m_amp.notes -= 2
-            m_amp.secondsRem = 10
-            m_amp.notesRem = 4
+        
         if m_amp.secondsRem <= 0 or m_amp.notesRem <= 0:
             m_amp.secondsRem = 0
             m_amp.notesRem = 0
@@ -180,25 +177,6 @@ def ampTimer():
 
 
 time_updater = threading.Thread(target=ampTimer)
-
-# def speakerTriggerHandler():
-#     while True:
-#         if speakerTrigger.is_pressed:
-#             scoreNote(m_alliance, 'speaker')
-
-
-# speakerScoreUpdater = threading.Thread(target=speakerTriggerHandler)
-
-
-def ampTriggerHandler():
-    while True:
-        if ampTrigger.is_pressed:
-            print('amp')
-            scoreNote(m_alliance, 'amp')
-
-
-ampScoreUpdater = threading.Thread(target=ampTriggerHandler)
-
 
 def resetHandler():
     while True:
@@ -219,10 +197,15 @@ resetUpdater = threading.Thread(target=resetHandler)
 
 def scoreSpeaker() :
     scoreNote('speaker')
-    print('speaker')
 
 def scoreAmp() :
     scoreNote('amp')
+
+def activateAmp() :
+    if ampButton.is_pressed and m_amp.secondsRem <= 0 and m_amp.notesRem <= 0 and m_amp.notes >= 2:
+            m_amp.notes -= 2
+            m_amp.secondsRem = 10
+            m_amp.notesRem = 4
 
 
 @circuit.run
@@ -234,8 +217,7 @@ def main():
     amp_updater.start()
     coop_updater.start()
     time_updater.start()
-   #  speakerScoreUpdater.start()
-    ampScoreUpdater.start()
     resetUpdater.start()
 
     speakerTrigger.when_pressed = scoreSpeaker
+    ampTrigger.when_pressed = scoreAmp
