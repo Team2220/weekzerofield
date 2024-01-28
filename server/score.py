@@ -12,19 +12,19 @@ class MatchScore:
     def updateArena(self):
         fms.updateRealtimeScore(self.blueAuto, self.redAuto, self.blueTeleop, self.redTeleop, self.blueEndgame, self.redEndgame)
     
-    def addScore(self, alliance, location, score):
+    def addScore(self, alliance, state, score):
         if alliance == 'red':
-            if location == 'auto':
+            if state == 'auto':
                 self.redAuto += score
-            if location == 'teleop':
+            if state == 'teleop':
                 self.redTeleop += score
-            if location == 'endgame':
+            if state == 'endgame':
                 self.redEndgame += score
         if alliance == 'blue':
-            if location == 'auto':
+            if state == 'auto':
                 self.blueAuto += score
-            if location == 'teleop':
+            if state == 'teleop':
                 self.blueTeleop += score
-            if location == 'endgame':
+            if state == 'endgame':
                 self.blueEndgame += score
         self.updateArena()
