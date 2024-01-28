@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap'); 
+ 
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Nunito', sans-serif;
+     color: #ffffff;
+ }
+
+ body {
+     background-color: #001489;
+ }
+
+ input,
+ select {
+     color: rgb(84, 84, 84);
+ }
+
+ h1 {
+    text-align: center;
+ }
+
+ .scoring-panel {
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+ }
