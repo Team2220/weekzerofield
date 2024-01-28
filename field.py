@@ -2,53 +2,53 @@ import websocket
 import json
 
 ws = websocket.WebSocket()
-wsScore = websocket.WebSocket()
+# wsScore = websocket.WebSocket()
 
-wsURL = "ws://127.0.0.1:8080/match_play/websocket"
-scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
+wsURL = "ws://127.0.0.1:8700/"
+# scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     ws.connect(wsURL)
-    wsScore.connect(scoreURL)
+    # wsScore.connect(scoreURL)
 
 def wsSend(packet) :
     ws.send(packet)
 
-def subTeam(tnum, pos) :
-    wsSend('{"type":"substituteTeam","data":{"team":' + str(tnum) + ',"position":"' + pos + '"}}')
+# def subTeam(tnum, pos) :
+#     wsSend('{"type":"substituteTeam","data":{"team":' + str(tnum) + ',"position":"' + pos + '"}}')
 
-def bypTeam(pos) :
-    wsSend('{"type":"toggleBypass","data":"' + pos + '"}')
+# def bypTeam(pos) :
+#     wsSend('{"type":"toggleBypass","data":"' + pos + '"}')
 
-def startMatch(mute='false') :
-    wsSend('{"type":"startMatch","data":{"muteMatchSounds":' + str(mute) + '}}')
+# def startMatch(mute='false') :
+#     wsSend('{"type":"startMatch","data":{"muteMatchSounds":' + str(mute) + '}}')
     
-def abortMatch() :
-    wsSend('{"type":"abortMatch"}')
+# def abortMatch() :
+#     wsSend('{"type":"abortMatch"}')
 
-def signalVolunteers() :
-    wsSend('{"type":"signalVolunteers"}')
+# def signalVolunteers() :
+#     wsSend('{"type":"signalVolunteers"}')
 
-def signalReset() :
-    wsSend('{"type":"signalReset"}')
+# def signalReset() :
+#     wsSend('{"type":"signalReset"}')
 
-def commitResults() :
-   print('err')
+# def commitResults() :
+#    print('err')
 
-def discardResults() :
-    print('err')
+# def discardResults() :
+#     print('err')
 
-def setAudienceDisplay(display) :
-    wsSend('{"type":"setAudienceDisplay","data":"' + display + '"}')
+# def setAudienceDisplay(display) :
+#     wsSend('{"type":"setAudienceDisplay","data":"' + display + '"}')
 
-def setAllianceStationDisplay(display) :
-    wsSend('{"type":"setAllianceStationDisplay","data":"' + display + '"}')
+# def setAllianceStationDisplay(display) :
+#     wsSend('{"type":"setAllianceStationDisplay","data":"' + display + '"}')
 
-def startTimeout(time=480) :
-    wsSend('{"type":"startTimeout","data":' + str(time) + '}')
+# def startTimeout(time=480) :
+#     wsSend('{"type":"startTimeout","data":' + str(time) + '}')
 
-def setTestMatchName(name) :
-    wsSend('{"type":"setTestMatchName","data":"' + name + '"}')
+# def setTestMatchName(name) :
+#     wsSend('{"type":"setTestMatchName","data":"' + name + '"}')
     
 def updateRealtimeScore(ba, ra, bt, rt, be, re) :
     scoreFormat = {"type":"updateRealtimeScore","data":{"blueAuto":0,"redAuto":0,"blueTeleop":0,"redTeleop":0,"blueEndgame":0,"redEndgame":0}}
@@ -63,20 +63,33 @@ def updateRealtimeScore(ba, ra, bt, rt, be, re) :
     toSend = json.dumps(scoreFormat)
     wsSend(toSend)
 
-def scoreHandler() : 
-    #receive and parse
-    rawmsg = wsScore.recv()
-    msg = json.loads(rawmsg)
+def addScore(ba, ra, bt, rt, be, re):
+    scoreFormat = {"type":"addScore","data":{"blueAuto":0,"redAuto":0,"blueTeleop":0,"redTeleop":0,"blueEndgame":0,"redEndgame":0}}
 
-    #ignore if not score update
-    if msg['type'] != 'realtimeScore' :
-        return 0
-    return msg
+    scoreFormat['data']['blueAuto'] = ba
+    scoreFormat['data']['redAuto'] = ra
+    scoreFormat['data']['blueTeleop'] = bt
+    scoreFormat['data']['redTeleop'] = rt
+    scoreFormat['data']['blueEndgame'] = be
+    scoreFormat['data']['redEndgame'] = re
 
-def timeHandler() :
-    rawmsg = wsScore.recv()
-    msg = json.loads(rawmsg)
+    toSend = json.dumps(scoreFormat)
+    wsSend(toSend)
 
-    if msg['type'] != 'matchTime' :
-        return 0
-    return msg
+# def scoreHandler() : 
+#     #receive and parse
+#     rawmsg = wsScore.recv()
+#     msg = json.loads(rawmsg)
+
+#     #ignore if not score update
+#     if msg['type'] != 'realtimeScore' :
+#         return 0
+#     return msg
+
+# def timeHandler() :
+#     rawmsg = wsScore.recv()
+#     msg = json.loads(rawmsg)
+
+#     if msg['type'] != 'matchTime' :
+#         return 0
+#     return msg
