@@ -1,25 +1,25 @@
 import field
 import threading
 from gpiozero import Device, Button
-from gpiozero.pins.mock import MockFactory
+# from gpiozero.pins.mock import MockFactory
 from time import sleep
 
-from tkgpio import TkCircuit
+# from tkgpio import TkCircuit
 
 # initialize the circuit inside the GUI
 
-configuration = {
-    "width": 300,
-    "height": 200,
-    "buttons": [
-        {"x": 50, "y": 130, "name": "coop", "pin": 4},
-        {"x": 250, "y": 130, "name": "amp", "pin": 17},
-        {"x": 150, "y": 130, "name": "speakerscore", "pin": 18},
-        {"x": 150, "y": 30, "name": "ampscore", "pin": 27}
-    ]
-}
+# configuration = {
+#     "width": 300,
+#     "height": 200,
+#     "buttons": [
+#         {"x": 50, "y": 130, "name": "coop", "pin": 4},
+#         {"x": 250, "y": 130, "name": "amp", "pin": 17},
+#         {"x": 150, "y": 130, "name": "speakerscore", "pin": 18},
+#         {"x": 150, "y": 30, "name": "ampscore", "pin": 27}
+#     ]
+# }
 
-circuit = TkCircuit(configuration)
+# circuit = TkCircuit(configuration)
 
 m_alliance = 'blue'
 
@@ -208,7 +208,7 @@ def activateAmp() :
             m_amp.notesRem = 4
 
 
-@circuit.run
+# @circuit.run
 def main():
     field.initConnections()
 
@@ -221,3 +221,4 @@ def main():
 
     speakerTrigger.when_pressed = scoreSpeaker
     ampTrigger.when_pressed = scoreAmp
+    ampButton.when_pressed = activateAmp
