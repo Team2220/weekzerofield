@@ -1,4 +1,4 @@
-import field
+import fms
 
 class MatchScore:
     redAuto = 0
@@ -10,7 +10,7 @@ class MatchScore:
     blueEndgame = 0
 
     def updateArena(self):
-        field.updateRealtimeScore(self.blueAuto, self.redAuto, self.blueTeleop, self.redTeleop, self.blueEndgame, self.redEndgame)
+        fms.updateRealtimeScore(self.blueAuto, self.redAuto, self.blueTeleop, self.redTeleop, self.blueEndgame, self.redEndgame)
     
     def addScore(self, alliance, location, score):
         if alliance == 'red':
