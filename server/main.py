@@ -11,7 +11,7 @@ def msgHandler(msg):
         return 0
 
 async def main() :
-    async with serve(msgHandler, 'localhost', 8765) as server:
+    async with serve(msgHandler, 'localhost', 8700) as server:
         await asyncio.Future()
 
 asyncio.run(main())
