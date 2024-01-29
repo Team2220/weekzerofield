@@ -15,7 +15,7 @@ m_match = Match()
 
 def msgHandler(msg):
     if msg['type'] == 'addScore':
-        m_matchScore.addScore(msg['data']['alliance'], msg['data']['state'], msg['data']['score'])
+        m_matchScore.addScore(msg['data']['alliance'], m_match.state, msg['data']['score'])
         print('The ' + msg['data']['alliance'] + ' alliance scored ' + str(msg['data']['score']) + ' points in ' + msg['data']['location'] + '.')
         return 0
     else :
