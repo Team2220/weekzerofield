@@ -31,15 +31,17 @@ ampTrigger = Button(27)
 
 
 class match(object):
+    matchState = 0
+
     def __init__(self):
         self.matchState = 0
 
-        self.blueAuto = 0
-        self.redAuto = 0
-        self.blueTele = 0
-        self.redTele = 0
-        self.blueEnd = 0
-        self.redEnd = 0
+        # self.blueAuto = 0
+        # self.redAuto = 0
+        # self.blueTele = 0
+        # self.redTele = 0
+        # self.blueEnd = 0
+        # self.redEnd = 0
 
 
 class amp(object):
@@ -54,20 +56,20 @@ m_amp = amp()
 m_match = match()
 
 
-def scoring_thread():
-    while True:
-        scores = field.scoreHandler()
-        if scores == 0:
-            continue
-        m_match.blueAuto = scores['data']['Blue']['Score']['AutoPoints']
-        m_match.redAuto = scores['data']['Red']['Score']['AutoPoints']
-        m_match.blueTele = scores['data']['Blue']['Score']['TeleopPoints']
-        m_match.redTele = scores['data']['Red']['Score']['TeleopPoints']
-        m_match.blueEnd = scores['data']['Blue']['Score']['EndgamePoints']
-        m_match.redEnd = scores['data']['Red']['Score']['EndgamePoints']
+# def scoring_thread():
+#     while True:
+#         scores = field.scoreHandler()
+#         if scores == 0:
+#             continue
+#         m_match.blueAuto = scores['data']['Blue']['Score']['AutoPoints']
+#         m_match.redAuto = scores['data']['Red']['Score']['AutoPoints']
+#         m_match.blueTele = scores['data']['Blue']['Score']['TeleopPoints']
+#         m_match.redTele = scores['data']['Red']['Score']['TeleopPoints']
+#         m_match.blueEnd = scores['data']['Blue']['Score']['EndgamePoints']
+#         m_match.redEnd = scores['data']['Red']['Score']['EndgamePoints']
 
 
-scoreUpdater = threading.Thread(target=scoring_thread)
+# scoreUpdater = threading.Thread(target=scoring_thread)
 
 
 def state_thread():
@@ -90,21 +92,21 @@ stateUpdater = threading.Thread(target=state_thread)
 # 7=timeout
 
 
-def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0):
-    m_match.blueAuto += ba
-    m_match.redAuto += ra
-    m_match.blueTele += bt
-    m_match.redTele += rt
-    m_match.blueEnd += be
-    m_match.redEnd += re
-    field.updateRealtimeScore(
-        m_match.blueAuto,
-        m_match.redAuto,
-        m_match.blueTele,
-        m_match.redTele,
-        m_match.blueEnd,
-        m_match.redEnd
-    )
+# def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0):
+#     m_match.blueAuto += ba
+#     m_match.redAuto += ra
+#     m_match.blueTele += bt
+#     m_match.redTele += rt
+#     m_match.blueEnd += be
+#     m_match.redEnd += re
+#     field.updateRealtimeScore(
+#         m_match.blueAuto,
+#         m_match.redAuto,
+#         m_match.blueTele,
+#         m_match.redTele,
+#         m_match.blueEnd,
+#         m_match.redEnd
+#     )
 
 
 def scoreNote(location):
@@ -112,60 +114,60 @@ def scoreNote(location):
         print('auto')
         if m_alliance == 'red':
             if location == 'speaker':
-                addScore(ra=5)
+                field.addScore(ra=5)
                 return 5
             if location == 'amp':
                 m_amp.notes += 1
-                addScore(ra=2)
+                field.addScore(ra=2)
                 return 2
         if m_alliance == 'blue':
             print('blue')
             if location == 'speaker':
-                addScore(ba=5)
+                field.addScore(ba=5)
                 print('scored')
                 return 5
             if location == 'amp':
                 m_amp.notes += 1
-                addScore(ba=2)
+                field.addScore(ba=2)
                 return 2
     if m_match.matchState == 5:  # in teleop
         print('teleop' + str(m_match.matchState))
         if m_alliance == 'red':
             if location == 'speaker':
                 if m_amp.secondsRem > 0 or m_amp.notesRem > 0:
-                    addScore(rt=5)
+                    field.addScore(rt=5)
                     return 5
-                addScore(rt=2)
+                field.addScore(rt=2)
                 return 2
             if location == 'amp':
                 m_amp.notes += 1
-                addScore(rt=1)
+                field.addScore(rt=1)
                 return 2
         if m_alliance == 'blue':
             print('blue')
             if location == 'speaker':
                 if m_amp.secondsRem > 0 or m_amp.notesRem > 0:
-                    addScore(bt=5)
+                    field.addScore(bt=5)
                     return 5
-                addScore(bt=2)
+                field.addScore(bt=2)
                 print('scored')
                 return 2
             if location == 'amp':
                 m_amp.notes += 1
-                addScore(bt=1)
+                field.addScore(bt=1)
                 return 1
     print('no score' + str(m_match.matchState))
     return 0
 
 
-def coopHandler():
-    if coopButton.is_pressed and coop == False and m_amp.notes >= 1:
-        print('coop')
-        coop = True
-        m_amp.secondsRem -= 1
+# def coopHandler():
+#     if coopButton.is_pressed and coop == False and m_amp.notes >= 1:
+#         print('coop')
+#         coop = True
+#         m_amp.secondsRem -= 1
 
 
-coop_updater = threading.Thread(target=coopHandler)
+# coop_updater = threading.Thread(target=coopHandler)
 
 
 def ampHandler():
@@ -189,22 +191,22 @@ def ampTimer():
 time_updater = threading.Thread(target=ampTimer)
 
 
-def resetHandler():
-    while True:
-        if m_match.matchState == 6:
-            blueAuto = 0
-            redAuto = 0
-            blueTele = 0
-            redTele = 0
-            blueEnd = 0
-            redEnd = 0
-            m_amp.notes = 0
-            coop = False
-            m_amp.notesRem = 0
-            m_amp.secondsRem = 0
+# def resetHandler():
+#     while True:
+#         if m_match.matchState == 6:
+#             blueAuto = 0
+#             redAuto = 0
+#             blueTele = 0
+#             redTele = 0
+#             blueEnd = 0
+#             redEnd = 0
+#             m_amp.notes = 0
+#             coop = False
+#             m_amp.notesRem = 0
+#             m_amp.secondsRem = 0
 
 
-resetUpdater = threading.Thread(target=resetHandler)
+# resetUpdater = threading.Thread(target=resetHandler)
 
 
 def scoreSpeaker():
@@ -226,12 +228,12 @@ def activateAmp():
 def main():
     field.initConnections()
 
-    scoreUpdater.start()
+    # scoreUpdater.start()
     stateUpdater.start()
     amp_updater.start()
-    coop_updater.start()
+    # coop_updater.start()
     time_updater.start()
-    resetUpdater.start()
+    # resetUpdater.start()
 
     speakerTrigger.when_pressed = scoreSpeaker
     ampTrigger.when_pressed = scoreAmp
