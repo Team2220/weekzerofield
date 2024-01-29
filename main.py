@@ -65,7 +65,6 @@ def scoring_thread():
         m_match.redTele = scores['data']['Red']['Score']['TeleopPoints']
         m_match.blueEnd = scores['data']['Blue']['Score']['EndgamePoints']
         m_match.redEnd = scores['data']['Red']['Score']['EndgamePoints']
-        print(str(scores))
 
 
 scoreUpdater = threading.Thread(target=scoring_thread)
