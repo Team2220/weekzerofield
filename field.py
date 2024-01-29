@@ -9,7 +9,7 @@ timeURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     ws.connect(wsURL)
-    wsTime.connect(scoreURL)
+    wsTime.connect(timeURL)
 
 def wsSend(packet) :
     ws.send(packet)
@@ -63,15 +63,27 @@ def updateRealtimeScore(ba, ra, bt, rt, be, re) :
     toSend = json.dumps(scoreFormat)
     wsSend(toSend)
 
-def addScore(ba, ra, bt, rt, be, re):
+def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0):
     scoreFormat = {"type":"addScore","data":{"alliance":"blue","score":0}}
 
-    scoreFormat['data']['blueAuto'] = ba
-    scoreFormat['data']['redAuto'] = ra
-    scoreFormat['data']['blueTeleop'] = bt
-    scoreFormat['data']['redTeleop'] = rt
-    scoreFormat['data']['blueEndgame'] = be
-    scoreFormat['data']['redEndgame'] = re
+    if ba != 0 :
+        scoreFormat['data']['alliance'] = 'blue'
+        scoreFormat['data']['score'] = ba
+    elif ra != 0 :
+        scoreFormat['data']['alliance'] = 'red'
+        scoreFormat['data']['score'] = ra
+    elif bt != 0 :
+        scoreFormat['data']['alliance'] = 'blue'
+        scoreFormat['data']['score'] = bt
+    elif rt != 0 :
+        scoreFormat['data']['alliance'] = 'red'
+        scoreFormat['data']['score'] = rt
+    elif be != 0 :
+        scoreFormat['data']['alliance'] = 'blue'
+        scoreFormat['data']['score'] = be
+    elif re != 0 :
+        scoreFormat['data']['alliance'] = 'red'
+        scoreFormat['data']['score'] = re
 
     toSend = json.dumps(scoreFormat)
     wsSend(toSend)
