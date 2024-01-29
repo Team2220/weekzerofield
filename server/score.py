@@ -9,6 +9,24 @@ class MatchScore:
     blueTeleop = 0
     blueEndgame = 0
 
+    def __init__(self):
+        self.redAuto = 0
+        self.redTeleop = 0
+        self.redEndgame = 0
+
+        self.blueAuto = 0
+        self.blueTeleop = 0
+        self.blueEndgame = 0
+    
+    def reset(self):
+        self.redAuto = 0
+        self.redTeleop = 0
+        self.redEndgame = 0
+
+        self.blueAuto = 0
+        self.blueTeleop = 0
+        self.blueEndgame = 0
+
     def updateArena(self):
         fms.updateRealtimeScore(self.blueAuto, self.redAuto, self.blueTeleop, self.redTeleop, self.blueEndgame, self.redEndgame)
     
