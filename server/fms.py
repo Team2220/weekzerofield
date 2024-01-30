@@ -2,14 +2,14 @@ import websocket
 import json
 
 ws = websocket.WebSocket()
-wsScore = websocket.WebSocket()
+# wsScore = websocket.WebSocket()
 
 wsURL = "ws://127.0.0.1:8080/match_play/websocket"
-scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
+# scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     ws.connect(wsURL)
-    wsScore.connect(scoreURL)
+    # wsScore.connect(scoreURL)
 
 def wsSend(packet) :
     ws.send(packet)

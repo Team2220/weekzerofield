@@ -1,7 +1,13 @@
+import threading
 import score
+import websockets
 import asyncio
-from websockets.server import serve
 import fms
+
+import logging
+logger = logging.getLogger('websockets')
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
 
 m_matchScore = score.MatchScore()
 
@@ -13,34 +19,40 @@ class Match:
 
 m_match = Match()
 
-def msgHandler(msg):
-    if msg['type'] == 'addScore':
-        m_matchScore.addScore(msg['data']['alliance'], m_match.state, msg['data']['score'])
-        print('The ' + msg['data']['alliance'] + ' alliance scored ' + str(msg['data']['score']) + ' points in ' + msg['data']['location'] + '.')
-        return 0
-    else :
-        print('Error: Invalid message type: ' + msg['type'])
+async def handler(websocket):
+    while True:
+        async for message in websocket:
+            print(message)
 
-async def main() :
-    async with serve(msgHandler, 'localhost', 8700) as server:
-        await asyncio.Future()
-
-async def sendScore():
+def sendScore():
     while True:
         m_matchScore.updateArena()
-        await asyncio.sleep(0.1)
 
-async def updateState():
+scoreUpdater = threading.Thread(target=sendScore)
+
+def updateState():
     while True:
-        m_match.state = fms.getMatchState()
-        await asyncio.sleep(0.1)
+        curr_state = fms.timeHandler()
+        print(m_match.state)
+        if curr_state == 0:
+            continue
+        m_match.matchState = curr_state['data']['MatchState']
 
-async def reset():
+stateUpdater = threading.Thread(target=updateState)
+
+def reset():
     while True:
         if m_match.state == 0 or m_match.state == 6:
             m_matchScore.reset()
-        await asyncio.sleep(0.1)
 
+resetUpdater = threading.Thread(target=reset)
+
+async def main():
+    async with websockets.serve(handler, "", 8700):
+        await asyncio.Future()  # run forever
+
+fms.initConnections()
+stateUpdater.start()
+resetUpdater.start()
+scoreUpdater.start()
 asyncio.run(main())
-asyncio.run(sendScore())
-asyncio.run(updateState())

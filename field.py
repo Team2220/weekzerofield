@@ -7,9 +7,10 @@ wsTime = websocket.WebSocket()
 wsURL = "ws://127.0.0.1:8700/"
 timeURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
-def initConnections() :
+def initConnections(time=True) :
     ws.connect(wsURL)
-    wsTime.connect(timeURL)
+    if time :
+        wsTime.connect(timeURL)
 
 def wsSend(packet) :
     ws.send(packet)
