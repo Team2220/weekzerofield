@@ -1,8 +1,10 @@
+import json
 import threading
 import score
 import websockets
 import asyncio
 import fms
+from time import sleep
 
 import logging
 logger = logging.getLogger('websockets')
@@ -23,20 +25,31 @@ async def handler(websocket):
     while True:
         async for message in websocket:
             print(message)
+            message = json.loads(message)
+            if message['type'] == 'addScore':
+                m_matchScore.addScore(message["data"]["alliance"], m_match.state, message["data"]["score"])
+                print(str(m_matchScore.redAuto))
+                print(str(m_matchScore.redTeleop))
+                print(str(m_matchScore.redEndgame))
+                print(str(m_matchScore.blueAuto))
+                print(str(m_matchScore.blueTeleop))
+                print(str(m_matchScore.blueEndgame))
 
 def sendScore():
     while True:
         m_matchScore.updateArena()
+        sleep(1)
 
 scoreUpdater = threading.Thread(target=sendScore)
 
 def updateState():
     while True:
         curr_state = fms.timeHandler()
-        print(m_match.state)
         if curr_state == 0:
             continue
-        m_match.matchState = curr_state['data']['MatchState']
+        m_match.state = curr_state['data']['MatchState']
+        # print(m_match.state)
+        sleep(1)
 
 stateUpdater = threading.Thread(target=updateState)
 
@@ -44,6 +57,8 @@ def reset():
     while True:
         if m_match.state == 0 or m_match.state == 6:
             m_matchScore.reset()
+            sleep(1)
+            # print('reset' + str(m_match.state))
 
 resetUpdater = threading.Thread(target=reset)
 

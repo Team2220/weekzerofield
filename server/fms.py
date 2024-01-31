@@ -2,14 +2,14 @@ import websocket
 import json
 
 ws = websocket.WebSocket()
-# wsScore = websocket.WebSocket()
+wsScore = websocket.WebSocket()
 
 wsURL = "ws://127.0.0.1:8080/match_play/websocket"
-# scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
+scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     ws.connect(wsURL)
-    # wsScore.connect(scoreURL)
+    wsScore.connect(scoreURL)
 
 def wsSend(packet) :
     ws.send(packet)
@@ -63,15 +63,15 @@ def updateRealtimeScore(ba, ra, bt, rt, be, re) :
     toSend = json.dumps(scoreFormat)
     wsSend(toSend)
 
-def scoreHandler() : 
-    #receive and parse
-    rawmsg = wsScore.recv()
-    msg = json.loads(rawmsg)
+# def scoreHandler() : 
+#     #receive and parse
+#     rawmsg = wsScore.recv()
+#     msg = json.loads(rawmsg)
 
-    #ignore if not score update
-    if msg['type'] != 'realtimeScore' :
-        return 0
-    return msg
+#     #ignore if not score update
+#     if msg['type'] != 'realtimeScore' :
+#         return 0
+#     return msg
 
 def timeHandler() :
     rawmsg = wsScore.recv()
