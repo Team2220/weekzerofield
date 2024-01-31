@@ -1,5 +1,6 @@
 import websocket
 import json
+from time import sleep
 
 ws = websocket.WebSocket()
 wsTime = websocket.WebSocket()
@@ -7,10 +8,19 @@ wsTime = websocket.WebSocket()
 wsURL = "ws://127.0.0.1:8700/"
 timeURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
-def initConnections(time=True) :
-    ws.connect(wsURL)
-    if time :
+def initConnections() :
+    try :
+        ws.connect(wsURL)
+    except ConnectionRefusedError:
+        print(f'The connection to {wsURL} was refused. Retrying...')
+        sleep(2)
+        initConnections()
+    try :
         wsTime.connect(timeURL)
+    except ConnectionRefusedError:
+        print(f'The connection to {timeURL} was refused. Retrying...')
+        sleep(2)
+        initConnections()
 
 def wsSend(packet) :
     ws.send(packet)
@@ -106,3 +116,11 @@ def timeHandler() :
     if msg['type'] != 'matchTime' :
         return 0
     return msg
+
+def closeConnections() :
+    ws.close()
+    wsTime.close()
+
+def getConnectionStatus():
+    if ws.connected == True and wsTime.connected == True:
+        return True

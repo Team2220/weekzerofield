@@ -83,6 +83,12 @@ def state_thread():
 
 stateUpdater = threading.Thread(target=state_thread)
 
+def reconnect():
+    while True:
+        if field.getConnectionStatus() == False:
+            field.closeConnections()
+            field.initConnections()
+
 # Match States
 # 0=Not Started
 # 3=auto
