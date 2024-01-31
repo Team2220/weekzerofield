@@ -62,6 +62,14 @@ def reset():
 
 resetUpdater = threading.Thread(target=reset)
 
+def reconnect():
+    while True:
+        if fms.getConnectionStatus() == False:
+            fms.closeConnections()
+            fms.initConnections()
+
+reconnectUpdater = threading.Thread(target=reconnect)
+
 async def main():
     async with websockets.serve(handler, "", 8700):
         await asyncio.Future()  # run forever
@@ -70,4 +78,5 @@ fms.initConnections()
 stateUpdater.start()
 resetUpdater.start()
 scoreUpdater.start()
+reconnectUpdater.start()
 asyncio.run(main())
