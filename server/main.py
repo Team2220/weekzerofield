@@ -15,7 +15,6 @@ m_matchScore = score.MatchScore()
 
 class Match:
     state = 0
-    
     def __init__(self):
         self.state = 0
 
@@ -28,6 +27,7 @@ async def handler(websocket):
             message = json.loads(message)
             if message['type'] == 'addScore':
                 m_matchScore.addScore(message["data"]["alliance"], m_match.state, message["data"]["score"])
+                m_matchScore.updateArena()
                 print(str(m_matchScore.redAuto))
                 print(str(m_matchScore.redTeleop))
                 print(str(m_matchScore.redEndgame))
@@ -55,10 +55,11 @@ stateUpdater = threading.Thread(target=updateState)
 
 def reset():
     while True:
-        if m_match.state == 0 or m_match.state == 6:
+        if m_match.state == 0:
             m_matchScore.reset()
             sleep(1)
             # print('reset' + str(m_match.state))
+        
 
 resetUpdater = threading.Thread(target=reset)
 
@@ -67,8 +68,16 @@ def reconnect():
         if fms.getConnectionStatus() == False:
             fms.closeConnections()
             fms.initConnections()
+            print('reconnecting')
+            sleep(2)
 
 reconnectUpdater = threading.Thread(target=reconnect)
+
+def printer():
+    while True:
+        fms.cacheHandler()
+
+printerUpdater = threading.Thread(target=printer)
 
 async def main():
     async with websockets.serve(handler, "", 8700):
@@ -77,6 +86,7 @@ async def main():
 fms.initConnections()
 stateUpdater.start()
 resetUpdater.start()
-scoreUpdater.start()
+# scoreUpdater.start()
 reconnectUpdater.start()
+printerUpdater.start()
 asyncio.run(main())

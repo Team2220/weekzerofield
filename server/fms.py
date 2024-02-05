@@ -6,29 +6,32 @@ ws = websocket.WebSocket()
 wsScore = websocket.WebSocket()
 
 wsURL = "ws://127.0.0.1:8080/match_play/websocket"
-scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
+# scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     try :
         ws.connect(wsURL)
+        print('Connected to ' + wsURL)
     except ConnectionRefusedError:
         print(f'The connection to {wsURL} was refused. Retrying...')
         sleep(2)
         initConnections()
-    try :
-        wsScore.connect(scoreURL)
-    except ConnectionRefusedError:
-        print(f'The connection to {scoreURL} was refused. Retrying...')
-        sleep(2)
-        initConnections()
+    # try :
+    #     wsScore.connect(scoreURL)
+    #     print('Connected to ' + scoreURL)
+    # except ConnectionRefusedError:
+    #     print(f'The connection to {scoreURL} was refused. Retrying...')
+    #     sleep(2)
+    #     initConnections()
 
 def getConnectionStatus() :
-    if ws.connected and wsScore.connected :
+    if ws.connected :
         return True
     return False
 
 def wsSend(packet) :
     ws.send(packet)
+    print(packet)
 
 def subTeam(tnum, pos) :
     wsSend('{"type":"substituteTeam","data":{"team":' + str(tnum) + ',"position":"' + pos + '"}}')
@@ -90,12 +93,15 @@ def updateRealtimeScore(ba, ra, bt, rt, be, re) :
 #     return msg
 
 def timeHandler() :
-    rawmsg = wsScore.recv()
+    rawmsg = ws.recv()
     msg = json.loads(rawmsg)
 
-    if msg['type'] != 'matchTime' :
+    if msg['type'] != 'arenaStatus' :
         return 0
     return msg
+
+def cacheHandler() :
+    return ws.recv()
 
 def closeConnections() :
     ws.close()

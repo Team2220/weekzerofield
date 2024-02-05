@@ -1,17 +1,14 @@
-import asyncio
-from websockets.server import serve
+import websocket
+from time import sleep
 
-import logging
-logger = logging.getLogger('websockets')
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
+ws = websocket.WebSocket()
+wsURL = "ws://127.0.0.1:8080/match_play/websocket"
 
-async def echo(websocket):
-    async for message in websocket:
-        print(message)
+def initConnections() :
+    ws.connect(wsURL)
 
-async def main():
-    async with serve(echo, "localhost", 8700):
-        await asyncio.Future()  # run forever
+initConnections()
 
-asyncio.run(main())
+# keep running
+while True:
+    print(ws.recv())

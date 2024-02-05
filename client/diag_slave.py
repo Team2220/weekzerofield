@@ -131,7 +131,7 @@ def testScoring():
 scoringtest_thread = threading.Thread(target=testScoring)
 
 def main():
-    field.initConnections(time=True)
+    field.initConnections()
 
     stateUpdater.start()
     scoringtest_thread.start()

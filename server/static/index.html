@@ -16,7 +16,7 @@
     <h1>Endgame Scoring Panel</h1>
     <div class="scoring-panel">
         <label for="alliance">Alliance</label>
-        <select name="alliance" id="alliance">
+        <select name="alliance" id="allianceSelector">
             <option value="red">Red</option>
             <option value="blue">Blue</option>
         </select>
@@ -38,7 +38,7 @@
 
         <br>
         <label for="submit">Submit</label>
-        <button id="submit">Submit</button>
+        <button id="submit" onclick="calcScores()">Submit</button>
     </div>
 </body>
 
