@@ -196,6 +196,16 @@ def ampTimer():
 
 time_updater = threading.Thread(target=ampTimer)
 
+def reconnect():
+    while True:
+        if field.getConnectionStatus() == False:
+            field.closeConnections()
+            field.initConnections()
+            print('reconnecting')
+            sleep(2)
+
+reconnect_thread = threading.Thread(target=reconnect)
+
 
 # def resetHandler():
 #     while True:
@@ -240,6 +250,7 @@ def main():
     # coop_updater.start()
     time_updater.start()
     # resetUpdater.start()
+    reconnect_thread.start()
 
     speakerTrigger.when_pressed = scoreSpeaker
     ampTrigger.when_pressed = scoreAmp
