@@ -8,6 +8,7 @@ function sendScore(alliance, state, score) {
   send({
     type: 'addScore', 'data': {"alliance": alliance, "state": state, "score": score}});
     console.log('Score sent');
+    alert('Score sent: ' + score);
 }
 
 function calcScores() {

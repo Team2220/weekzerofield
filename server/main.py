@@ -26,7 +26,7 @@ async def handler(websocket):
             print(message)
             message = json.loads(message)
             if message['type'] == 'addScore':
-                m_matchScore.addScore(message["data"]["alliance"], m_match.state, message["data"]["score"])
+                m_matchScore.addScore(message["data"]["alliance"], message['data']['state'], message["data"]["score"])
                 m_matchScore.updateArena()
                 print(str(m_matchScore.redAuto))
                 print(str(m_matchScore.redTeleop))
