@@ -235,7 +235,7 @@ def scoreAmp():
 
 def activateAmp():
     if ampButton.is_pressed and m_amp.secondsRem <= 0 and m_amp.notesRem <= 0 and m_amp.notes >= 2:
-        m_amp.notes -= 2
+        m_amp.notes = 0
         m_amp.secondsRem = 10
         m_amp.notesRem = 4
 
