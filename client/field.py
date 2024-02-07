@@ -74,8 +74,8 @@ def updateRealtimeScore(ba, ra, bt, rt, be, re) :
     toSend = json.dumps(scoreFormat)
     wsSend(toSend)
 
-def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0):
-    scoreFormat = {"type":"addScore","data":{"alliance":"blue","score":0}}
+def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0, state=5):
+    scoreFormat = {"type":"addScore","data":{"alliance":"blue","score":0, "state":0}}
 
     if ba != 0 :
         scoreFormat['data']['alliance'] = 'blue'
@@ -95,6 +95,7 @@ def addScore(ba=0, ra=0, bt=0, rt=0, be=0, re=0):
     elif re != 0 :
         scoreFormat['data']['alliance'] = 'red'
         scoreFormat['data']['score'] = re
+    scoreFormat['data']['state'] = state
 
     toSend = json.dumps(scoreFormat)
     wsSend(toSend)

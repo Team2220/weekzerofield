@@ -32,12 +32,16 @@ class MatchScore:
         
     
     def addScore(self, alliance, state, score):
+        if type(state) == str:
+            state = int(state)
         if alliance == 'red':
+            print('RED')
             if state == 3:
                 self.redAuto += score
             if state == 5:
                 self.redTeleop += score
             if state == 12:
+                print('endgame')
                 self.redEndgame += score
         if alliance == 'blue':
             if state == 3:

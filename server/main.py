@@ -28,12 +28,12 @@ async def handler(websocket):
             if message['type'] == 'addScore':
                 m_matchScore.addScore(message["data"]["alliance"], message['data']['state'], message["data"]["score"])
                 m_matchScore.updateArena()
-                print(str(m_matchScore.redAuto))
-                print(str(m_matchScore.redTeleop))
-                print(str(m_matchScore.redEndgame))
-                print(str(m_matchScore.blueAuto))
-                print(str(m_matchScore.blueTeleop))
-                print(str(m_matchScore.blueEndgame))
+                # print(str(m_matchScore.redAuto))
+                # print(str(m_matchScore.redTeleop))
+                # print(str(m_matchScore.redEndgame))
+                # print(str(m_matchScore.blueAuto))
+                # print(str(m_matchScore.blueTeleop))
+                # print(str(m_matchScore.blueEndgame))
 
 def sendScore():
     while True:

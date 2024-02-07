@@ -66,47 +66,47 @@ def scoreNote(location):
         print('auto')
         if m_alliance == 'red':
             if location == 'speaker':
-                field.addScore(ra=5)
+                field.addScore(ra=5, state=m_match.matchState)
                 return 5
             if location == 'amp':
                 m_amp.notes += 1
-                field.addScore(ra=2)
+                field.addScore(ra=2, state=m_match.matchState)
                 return 2
         if m_alliance == 'blue':
             print('blue')
             if location == 'speaker':
-                field.addScore(ba=5)
+                field.addScore(ba=5, state=m_match.matchState)
                 print('scored')
                 return 5
             if location == 'amp':
                 m_amp.notes += 1
-                field.addScore(ba=2)
+                field.addScore(ba=2, state=m_match.matchState)
                 return 2
     if m_match.matchState == 5:  # in teleop
         print('teleop' + str(m_match.matchState))
         if m_alliance == 'red':
             if location == 'speaker':
                 if m_amp.secondsRem > 0 or m_amp.notesRem > 0:
-                    field.addScore(rt=5)
+                    field.addScore(rt=5, state=m_match.matchState)
                     return 5
-                field.addScore(rt=2)
+                field.addScore(rt=2, state=m_match.matchState)
                 return 2
             if location == 'amp':
                 m_amp.notes += 1
-                field.addScore(rt=1)
+                field.addScore(rt=1, state=m_match.matchState)
                 return 2
         if m_alliance == 'blue':
             print('blue')
             if location == 'speaker':
                 if m_amp.secondsRem > 0 or m_amp.notesRem > 0:
-                    field.addScore(bt=5)
+                    field.addScore(bt=5, state=m_match.matchState)
                     return 5
-                field.addScore(bt=2)
+                field.addScore(bt=2, state=m_match.matchState)
                 print('scored')
                 return 2
             if location == 'amp':
                 m_amp.notes += 1
-                field.addScore(bt=1)
+                field.addScore(bt=1, state=m_match.matchState)
                 return 1
     print('no score' + str(m_match.matchState))
     return 0
