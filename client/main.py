@@ -252,6 +252,8 @@ def main():
     # resetUpdater.start()
     reconnect_thread.start()
 
+    print('running')
+
     speakerTrigger.when_pressed = scoreSpeaker
     ampTrigger.when_pressed = scoreAmp
     ampButton.when_pressed = activateAmp
