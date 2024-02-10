@@ -5,7 +5,7 @@ from time import sleep
 ws = websocket.WebSocket()
 wsScore = websocket.WebSocket()
 
-wsURL = "ws://127.0.0.1:8080/match_play/websocket"
+wsURL = "ws://172.16.20.5:8080/match_play/websocket"
 # scoreURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
