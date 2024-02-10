@@ -5,6 +5,9 @@ from time import sleep
 ws = websocket.WebSocket()
 wsTime = websocket.WebSocket()
 
+ws.enableTrace(True)
+wsTime.enableTrace(True)
+
 wsURL = "ws://172.16.20.6:8700/"
 timeURL="ws://172.16.20.6:8080/displays/announcer/websocket?displayId=100"
 
