@@ -257,3 +257,5 @@ def main():
     speakerTrigger.when_pressed = scoreSpeaker
     ampTrigger.when_pressed = scoreAmp
     ampButton.when_pressed = activateAmp
+
+main()
