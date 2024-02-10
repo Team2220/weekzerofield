@@ -76,6 +76,7 @@ reconnectUpdater = threading.Thread(target=reconnect)
 def printer():
     while True:
         fms.cacheHandler()
+        print(fms.cacheHandler())
 
 printerUpdater = threading.Thread(target=printer)
 
