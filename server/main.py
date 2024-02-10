@@ -58,7 +58,7 @@ def reset():
         if m_match.state == 0:
             m_matchScore.reset()
             sleep(1)
-            # print('reset' + str(m_match.state))
+            print('reset' + str(m_match.state))
         
 
 resetUpdater = threading.Thread(target=reset)

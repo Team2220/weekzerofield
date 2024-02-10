@@ -260,8 +260,6 @@ def main():
     reconnect_thread.start()
     pinger_thread.start()
 
-    print('running')
-
     speakerTrigger.when_pressed = scoreSpeaker
     ampTrigger.when_pressed = scoreAmp
     ampButton.when_pressed = activateAmp
