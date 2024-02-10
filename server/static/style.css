@@ -1,28 +1,126 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap'); 
- 
- * {
-     margin: 0;
-     padding: 0;
-     box-sizing: border-box;
-     font-family: 'Nunito', sans-serif;
-     color: #ffffff;
- }
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
- body {
-     background-color: #001489;
- }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+    color: #ffffff;
+}
 
- input,
- select {
-     color: rgb(84, 84, 84);
- }
+body {
+    background-color: rgb(32, 32, 32);
+}
 
- h1 {
+input,
+select,
+button {
+    color: rgb(84, 84, 84);
+}
+
+h1 {
     text-align: center;
- }
+}
 
- .scoring-panel {
+.scoring-panel {
     margin: auto;
     width: 50%;
     justify-content: center;
- }
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0;
+}
+
+input {
+    padding: 10px;
+    width: min-content;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(84, 84, 84);
+    color: #ffffff;
+    appearance: textfield;
+    text-align: center;
+    box-shadow: black 0px 0px 5px;
+}
+
+select {
+    padding: 10px;
+    width: 10%;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(84, 84, 84);
+    color: #ffffff;
+    appearance: textfield;
+    text-align: center;
+    box-shadow: black 0px 0px 5px;
+}
+
+button {
+    padding: 10px;
+    width: min-content;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(0, 159, 0);
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: black 0px 0px 5px;
+}
+
+.spinner {
+    margin-top: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.trap-notes {
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.spotlit-container {
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.hanging-container {
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.parked-container {
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.down {
+    background-color: rgb(159, 0, 0);
+}
+
+.up {
+    background-color: rgb(0, 159, 0);
+}
+
+.grayed--UNUSED {
+    background-color: rgb(84, 84, 84);
+}

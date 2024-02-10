@@ -12,32 +12,53 @@
     <script src="socket.js"></script>
 </head>
 
-<body>
+<body id="body">
     <h1>Endgame Scoring Panel</h1>
     <div class="scoring-panel">
         <label for="alliance">Alliance</label>
+        <br>
         <select name="alliance" id="allianceSelector">
             <option value="red">Red</option>
             <option value="blue">Blue</option>
         </select>
         <br>
         <label for="parked">Parked Robots</label>
-        <input type="number" id="parked" placeholder="0-3" min="0" max="3">
+        <br>
+        <div class="parked-container">
+
+            <button class="spinner down" onclick="decrement('parked')" id="parkeddown">-</button>
+            <input type="number" id="parked" placeholder="0-3" min="0" max="3">
+            <button class="spinner up" onclick="increment('parked')" id="parkedup">+</button>
+        </div>
 
         <br>
         <label for="hanging">Total Hanging Robots</label>
-        <input type="number" id="hanging" placeholder="0-3" min="0" max="3">
+        <br>
+        <div class="hanging-container">
+
+            <button class="spinner down" onclick="decrement('hanging')" id="hangingdown">-</button>
+            <input type="number" id="hanging" placeholder="0-3" min="0" max="3">
+            <button class="spinner up" onclick="increment('hanging')" id="hangingup">+</button>
+        </div>
 
         <br>
         <label for="spotlit">Spotlit Hanging Robots</label>
-        <input type="number" id="spotlit" placeholder="0-3" min="0" max="3">
+        <br>
+        <div class="spotlit-container">
+
+            <button class="spinner down" onclick="decrement('spotlit')" id="spotlitdown">-</button>
+            <input type="number" id="spotlit" placeholder="0-3" min="0" max="3">
+            <button class="spinner up" onclick="increment('spotlit')" id="spotlitup">+</button>
+        </div>
 
         <br>
         <label for="trap">Trap Notes Scored</label>
-        <input type="number" id="trap" placeholder="0-3" min="0" max="3">
-
         <br>
-        <label for="submit">Submit</label>
+        <div class="trap-notes">
+            <button class="spinner down" onclick="decrement('trap')" id="trapdown">-</button>
+            <input type="number" id="trap" placeholder="0-3" min="0" max="3">
+            <button class="spinner up" onclick="increment('trap')" id="trapup">+</button>
+        </div>
         <button id="submit" onclick="calcScores()">Submit</button>
     </div>
 </body>
