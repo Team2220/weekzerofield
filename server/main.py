@@ -48,7 +48,7 @@ def updateState():
         if curr_state == 0:
             continue
         m_match.state = curr_state['data']['MatchState']
-        # print(m_match.state)
+        print(m_match.state)
         sleep(1)
 
 stateUpdater = threading.Thread(target=updateState)
