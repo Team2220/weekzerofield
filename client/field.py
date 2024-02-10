@@ -5,8 +5,8 @@ from time import sleep
 ws = websocket.WebSocket()
 wsTime = websocket.WebSocket()
 
-wsURL = "ws://127.0.0.1:8700/"
-timeURL="ws://127.0.0.1:8080/displays/announcer/websocket?displayId=100"
+wsURL = "ws://172.16.20.6:8700/"
+timeURL="ws://172.16.20.6:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     try :
