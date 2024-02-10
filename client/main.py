@@ -206,6 +206,11 @@ def reconnect():
 
 reconnect_thread = threading.Thread(target=reconnect)
 
+def pinger():
+    while True:
+        if field.ping_handler() != 0:
+            field.wsSend('{"type":"pong"}')
+            sleep(0.1)
 
 # def resetHandler():
 #     while True:

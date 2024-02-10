@@ -120,6 +120,14 @@ def timeHandler() :
         return 0
     return msg
 
+def ping_handler() :
+    rawmsg = ws.recv()
+    msg = json.loads(rawmsg)
+
+    if msg['type'] != 'ping' :
+        return 0
+    return msg
+
 def closeConnections() :
     ws.close()
     wsTime.close()
