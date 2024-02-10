@@ -1,4 +1,4 @@
-const socket = new WebSocket('ws://localhost:8700');
+const socket = new WebSocket('ws://172.16.20.6:8700');
 
 function send(data) {
   socket.send(JSON.stringify(data));

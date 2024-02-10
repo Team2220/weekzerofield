@@ -5,6 +5,7 @@ apt dist-upgrade -y
 apt install git -y
 
 sudo apt-get install python3.9 -y
+sudo apt install python3-pip -y
 
 mkdir /weekzerofield
 cd /weekzerofield
