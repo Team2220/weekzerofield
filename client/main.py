@@ -212,6 +212,8 @@ def pinger():
             field.wsSend('{"type":"pong"}')
             sleep(0.1)
 
+pinger_thread = threading.Thread(target=pinger)
+
 # def resetHandler():
 #     while True:
 #         if m_match.matchState == 6:
@@ -256,6 +258,7 @@ def main():
     time_updater.start()
     # resetUpdater.start()
     reconnect_thread.start()
+    pinger_thread.start()
 
     print('running')
 
