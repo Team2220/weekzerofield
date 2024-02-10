@@ -94,11 +94,11 @@ def updateRealtimeScore(ba, ra, bt, rt, be, re) :
 
 def timeHandler() :
     rawmsg = ws.recv()
-    print(rawmsg)
     msg = json.loads(rawmsg)
 
     if msg['type'] != 'arenaStatus' :
         return 0
+    print(msg)
     return msg
 
 def cacheHandler() :
