@@ -8,7 +8,7 @@ ws = websocket.WebSocket()
 wsTime = websocket.WebSocket()
 
 wsURL = "ws://172.16.20.6:8700/"
-timeURL="ws://172.16.20.6:8080/displays/announcer/websocket?displayId=100"
+timeURL="ws://172.16.20.5:8080/displays/announcer/websocket?displayId=100"
 
 def initConnections() :
     try :
